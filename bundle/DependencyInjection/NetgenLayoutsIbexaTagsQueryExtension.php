@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Bundle\LayoutsEzPlatformTagsQueryBundle\DependencyInjection;
+namespace Netgen\Bundle\LayoutsIbexaTagsQueryBundle\DependencyInjection;
 
 use Netgen\Layouts\Exception\RuntimeException;
 use Symfony\Component\Config\FileLocator;
@@ -15,7 +15,7 @@ use Symfony\Component\Yaml\Yaml;
 use function array_key_exists;
 use function file_get_contents;
 
-final class NetgenLayoutsEzPlatformTagsQueryExtension extends Extension implements PrependExtensionInterface
+final class NetgenLayoutsIbexaTagsQueryExtension extends Extension implements PrependExtensionInterface
 {
     /**
      * @param mixed[] $configs

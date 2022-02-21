@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Netgen\Layouts\Ez\TagsQuery\Handler;
+namespace Netgen\Layouts\Ibexa\TagsQuery\Handler;
 
-use eZ\Publish\API\Repository\LocationService;
-use eZ\Publish\API\Repository\SearchService;
-use eZ\Publish\API\Repository\Values\Content\Content;
-use eZ\Publish\API\Repository\Values\Content\Field;
-use eZ\Publish\API\Repository\Values\Content\Location;
-use eZ\Publish\API\Repository\Values\Content\LocationQuery;
-use eZ\Publish\API\Repository\Values\Content\Query\Criterion;
-use eZ\Publish\API\Repository\Values\Content\Search\SearchHit;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Helper\TranslationHelper;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\SPI\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateHandler;
+use Ibexa\Contracts\Core\Repository\LocationService;
+use Ibexa\Contracts\Core\Repository\SearchService;
+use Ibexa\Contracts\Core\Repository\Values\Content\Content;
+use Ibexa\Contracts\Core\Repository\Values\Content\Field;
+use Ibexa\Contracts\Core\Repository\Values\Content\Location;
+use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\Helper\TranslationHelper;
 use Netgen\Layouts\API\Values\Collection\Query;
 use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
-use Netgen\Layouts\Ez\Collection\QueryType\Handler\Traits;
-use Netgen\Layouts\Ez\ContentProvider\ContentProviderInterface;
-use Netgen\Layouts\Ez\Parameters\ParameterType as EzParameterType;
+use Netgen\Layouts\Ibexa\Collection\QueryType\Handler\Traits;
+use Netgen\Layouts\Ibexa\ContentProvider\ContentProviderInterface;
+use Netgen\Layouts\Ibexa\Parameters\ParameterType as IbexaParameterType;
 use Netgen\Layouts\Parameters\ParameterBuilderInterface;
 use Netgen\Layouts\Parameters\ParameterType;
 use Netgen\TagsBundle\API\Repository\Values\Content\Query\Criterion\TagId;
@@ -39,7 +39,7 @@ use function explode;
 use function is_int;
 
 /**
- * Query handler implementation providing values through eZ Platform Tags field.
+ * Query handler implementation providing values through Ibexa Platform Tags field.
  */
 final class TagsQueryHandler implements QueryTypeHandlerInterface
 {
@@ -86,7 +86,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
 
         $builder->add(
             'filter_by_tags',
-            EzParameterType\TagsType::class,
+            IbexaParameterType\TagsType::class,
             [
                 'allow_invalid' => true,
             ],

@@ -18,7 +18,7 @@
 
         <PropertyNotSetInConstructor>
             <errorLevel type="suppress">
-                <referencedProperty name="Netgen\Layouts\Ez\Collection\QueryType\Handler\Traits\ContentTypeFilterTrait::$contentTypeHandler" />
+                <referencedProperty name="Netgen\Layouts\Ibexa\Collection\QueryType\Handler\Traits\ContentTypeFilterTrait::$contentTypeHandler" />
             </errorLevel>
         </PropertyNotSetInConstructor>
 
