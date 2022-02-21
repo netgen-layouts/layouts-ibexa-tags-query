@@ -1,6 +1,6 @@
 {
-    "name": "netgen/layouts-ezplatform-tags-query",
-    "description": "Netgen Layouts query based on Netgen Tags for eZ Platform",
+    "name": "netgen/layouts-ibexa-tags-query",
+    "description": "Netgen Layouts query based on Netgen Tags for Ibexa Platform",
     "license": "GPL-2.0-only",
     "type": "symfony-bundle",
     "authors": [
@@ -10,8 +10,8 @@
         }
     ],
     "require": {
-        "netgen/layouts-ezplatform": "^1.3",
-        "netgen/tagsbundle": "^3.4 || ^4.0"
+        "netgen/layouts-ibexa": "^1.3",
+        "netgen/tagsbundle": "^5.0"
     },
     "require-dev": {
         "netgen/layouts-coding-standard": "^2.0",
@@ -28,8 +28,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Netgen\\Layouts\\Ez\\TagsQuery\\": "lib/",
-            "Netgen\\Bundle\\LayoutsEzPlatformTagsQueryBundle\\": "bundle/"
+            "Netgen\\Layouts\\Ibexa\\TagsQuery\\": "lib/",
+            "Netgen\\Bundle\\LayoutsIbexaTagsQueryBundle\\": "bundle/"
         }
     },
     "minimum-stability": "dev",

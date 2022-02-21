@@ -6,7 +6,7 @@ parameters:
         - Symfony\Component\HttpKernel\Kernel::VERSION_ID
 
     ignoreErrors:
-        # eZ Platform
+        # Ibexa Platform
 
         - "#Casting to int something that's already int.#"
 

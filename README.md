@@ -1,7 +1,7 @@
-# Netgen Layouts query based on Netgen Tags for eZ Platform
+# Netgen Layouts query based on Netgen Tags for Ibexa Platform
 
 This bundle provides Netgen Layouts query that makes it possible to add items to
-block via Tags field type available in any content in eZ Platform CMS.
+block via Tags field type available in any content in Ibexa Platform CMS.
 
 ## Installation instructions
 
@@ -10,25 +10,11 @@ block via Tags field type available in any content in eZ Platform CMS.
 Run the following from your installation root to install the package:
 
 ```bash
-$ composer require netgen/layouts-ezplatform-tags-query
-```
-
-### Activate the bundle in your app kernel
-
-Add the following to the list of activated bundles:
-
-```php
-$bundles = [
-...
-
-new Netgen\Bundle\LayoutsEzPlatformTagsQueryBundle\NetgenLayoutsEzPlatformTagsQueryBundle(),
-
-...
-];
+$ composer require netgen/layouts-ibexa-tags-query
 ```
 
 Due to how prepending configuration of other bundles works in Symfony, to make
-this query type display after the existing eZ Platform query type, you need to
-add the bundle BEFORE `NetgenLayoutsEzPlatformBundle` in the list of
-activated bundles.
+this query type display after the existing Ibexa Platform query type, you need
+to add the bundle BEFORE `NetgenLayoutsIbexaBundle` in the list of activated
+bundles.
 
