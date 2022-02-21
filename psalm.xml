@@ -14,14 +14,6 @@
     </projectFiles>
 
     <issueHandlers>
-        <!-- Deprecations -->
-
-        <PropertyNotSetInConstructor>
-            <errorLevel type="suppress">
-                <referencedProperty name="Netgen\Layouts\Ibexa\Collection\QueryType\Handler\Traits\ContentTypeFilterTrait::$contentTypeHandler" />
-            </errorLevel>
-        </PropertyNotSetInConstructor>
-
         <!-- Netgen Tags Bundle -->
 
         <RedundantCastGivenDocblockType>
