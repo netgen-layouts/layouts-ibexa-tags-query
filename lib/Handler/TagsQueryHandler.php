@@ -40,7 +40,7 @@ use function explode;
 use function is_int;
 
 /**
- * Query handler implementation providing values through Ibexa Platform Tags field.
+ * Query handler implementation providing values through Ibexa CMS Tags field.
  */
 final class TagsQueryHandler implements QueryTypeHandlerInterface
 {
