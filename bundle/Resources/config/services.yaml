@@ -3,11 +3,9 @@ services:
         class: Netgen\Layouts\Ibexa\TagsQuery\Handler\TagsQueryHandler
         arguments:
             - "@ibexa.api.service.location"
-            - "@netgen_layouts.ibexa.search_service"
             - "@Ibexa\\Contracts\\Core\\Persistence\\Content\\ObjectState\\Handler"
             - "@netgen_layouts.ibexa.content_provider"
-            - "@ibexa.config.resolver"
+            - "@netgen_layouts.ibexa.search_service"
             - "@request_stack"
-            - "@Ibexa\\Core\\Helper\\TranslationHelper"
         tags:
             - { name: netgen_layouts.query_type_handler, type: ibexa_content_tags }

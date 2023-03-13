@@ -14,8 +14,6 @@ use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
-use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
-use Ibexa\Core\Helper\TranslationHelper;
 use Netgen\Layouts\API\Values\Collection\Query;
 use Netgen\Layouts\Collection\QueryType\QueryTypeHandlerInterface;
 use Netgen\Layouts\Ibexa\Collection\QueryType\Handler\Traits;
@@ -28,7 +26,6 @@ use Netgen\TagsBundle\API\Repository\Values\Tags\Tag;
 use Netgen\TagsBundle\Core\FieldType\Tags\Value as TagsFieldValue;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Kernel;
 
 use function array_filter;
 use function array_map;
@@ -38,6 +35,7 @@ use function array_values;
 use function count;
 use function explode;
 use function is_int;
+use function max;
 
 /**
  * Query handler implementation providing values through Ibexa CMS Tags field.
@@ -52,28 +50,13 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
     use Traits\QueryTypeFilterTrait;
     use Traits\SortTrait;
 
-    private SearchService $searchService;
-
-    private ConfigResolverInterface $configResolver;
-
-    private RequestStack $requestStack;
-
-    private TranslationHelper $translationHelper;
-
     public function __construct(
         LocationService $locationService,
-        SearchService $searchService,
         ObjectStateHandler $objectStateHandler,
         ContentProviderInterface $contentProvider,
-        ConfigResolverInterface $configResolver,
-        RequestStack $requestStack,
-        TranslationHelper $translationHelper
+        private SearchService $searchService,
+        private RequestStack $requestStack,
     ) {
-        $this->searchService = $searchService;
-        $this->configResolver = $configResolver;
-        $this->requestStack = $requestStack;
-        $this->translationHelper = $translationHelper;
-
         $this->setLocationService($locationService);
         $this->setObjectStateHandler($objectStateHandler);
         $this->setContentProvider($contentProvider);
@@ -169,10 +152,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         // it can only be disabled if limit is not 0
         $locationQuery->performCount = $locationQuery->limit === 0;
 
-        $searchResult = $this->searchService->findLocations(
-            $locationQuery,
-            ['languages' => $this->configResolver->getParameter('languages')],
-        );
+        $searchResult = $this->searchService->findLocations($locationQuery);
 
         return array_map(
             static fn (SearchHit $searchHit): ValueObject => $searchHit->valueObject,
@@ -197,10 +177,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         $locationQuery = $this->buildLocationQuery($query, $parentLocation, $tagIds);
         $locationQuery->limit = 0;
 
-        $searchResult = $this->searchService->findLocations(
-            $locationQuery,
-            ['languages' => $this->configResolver->getParameter('languages')],
-        );
+        $searchResult = $this->searchService->findLocations($locationQuery);
 
         return $searchResult->totalCount ?? 0;
     }
@@ -216,7 +193,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
      */
     private function getOffset(int $offset): int
     {
-        return $offset >= 0 ? $offset : 0;
+        return max($offset, 0);
     }
 
     /**
@@ -253,9 +230,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
             $queryStringParam = $query->getParameter('query_string_param_name');
 
             if (!$queryStringParam->isEmpty() && $request->query->has($queryStringParam->getValue())) {
-                $tags[] = Kernel::VERSION_ID >= 50100 ?
-                    $request->query->all($queryStringParam->getValue()) :
-                    (array) ($request->query->get($queryStringParam->getValue()) ?? []);
+                $tags[] = $request->query->all($queryStringParam->getValue());
             }
         }
 
@@ -344,7 +319,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
      */
     private function getTagsFromField(Content $content, string $fieldDefinitionIdentifier): array
     {
-        $field = $this->translationHelper->getTranslatedField($content, $fieldDefinitionIdentifier);
+        $field = $content->getField($fieldDefinitionIdentifier);
         if ($field === null || !$field->value instanceof TagsFieldValue) {
             return [];
         }
