@@ -325,7 +325,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         }
 
         return array_map(
-            static fn (Tag $tag): int => (int) $tag->id,
+            static fn (Tag $tag): int => $tag->id,
             $field->value->tags,
         );
     }

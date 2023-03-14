@@ -4,8 +4,3 @@ includes:
 parameters:
     dynamicConstantNames:
         - Symfony\Component\HttpKernel\Kernel::VERSION_ID
-
-    ignoreErrors:
-        # Ibexa CMS
-
-        - "#Casting to int something that's already int.#"
