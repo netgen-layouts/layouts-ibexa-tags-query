@@ -13,7 +13,6 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\Yaml\Yaml;
 
-use function array_key_exists;
 use function file_get_contents;
 
 final class NetgenLayoutsIbexaTagsQueryExtension extends Extension implements PrependExtensionInterface
@@ -26,9 +25,10 @@ final class NetgenLayoutsIbexaTagsQueryExtension extends Extension implements Pr
         /** @var array<string, string> $activatedBundles */
         $activatedBundles = $container->getParameter('kernel.bundles');
 
-        if (!array_key_exists('NetgenTagsBundle', $activatedBundles)) {
-            throw new RuntimeException('Netgen Layouts Tags Query Bundle requires Netgen Tags (netgen/tagsbundle) to be activated to work properly.');
-        }
+        $activatedBundles['NetgenTagsBundle'] ??
+            throw new RuntimeException(
+                'Netgen Layouts Tags Query Bundle requires Netgen Tags (netgen/tagsbundle) to be activated to work properly.',
+            );
 
         $loader = new YamlFileLoader(
             $container,
