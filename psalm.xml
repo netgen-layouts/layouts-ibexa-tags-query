@@ -12,14 +12,4 @@
             <directory name="vendor" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <!-- Netgen Tags Bundle -->
-
-        <RedundantCastGivenDocblockType>
-            <errorLevel type="suppress">
-                <file name="lib/Handler/TagsQueryHandler.php" />
-            </errorLevel>
-        </RedundantCastGivenDocblockType>
-    </issueHandlers>
 </psalm>

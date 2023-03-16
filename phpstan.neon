@@ -1,6 +1,2 @@
 includes:
     - vendor/phpstan/phpstan-strict-rules/rules.neon
-
-parameters:
-    dynamicConstantNames:
-        - Symfony\Component\HttpKernel\Kernel::VERSION_ID
