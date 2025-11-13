@@ -8,10 +8,10 @@ use Ibexa\Contracts\Core\Persistence\Content\ObjectState\Handler as ObjectStateH
 use Ibexa\Contracts\Core\Repository\LocationService;
 use Ibexa\Contracts\Core\Repository\SearchService;
 use Ibexa\Contracts\Core\Repository\Values\Content\Content;
-use Ibexa\Contracts\Core\Repository\Values\Content\Field;
 use Ibexa\Contracts\Core\Repository\Values\Content\Location;
 use Ibexa\Contracts\Core\Repository\Values\Content\LocationQuery;
 use Ibexa\Contracts\Core\Repository\Values\Content\Query\Criterion;
+use Ibexa\Contracts\Core\Repository\Values\Content\Query\CriterionInterface;
 use Ibexa\Contracts\Core\Repository\Values\Content\Search\SearchHit;
 use Ibexa\Contracts\Core\Repository\Values\ValueObject;
 use Netgen\Layouts\API\Values\Collection\Query;
@@ -265,7 +265,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
 
         $criteria = array_filter(
             $criteria,
-            static fn (?Criterion $criterion): bool => $criterion instanceof Criterion,
+            static fn (?CriterionInterface $criterion): bool => $criterion instanceof CriterionInterface,
         );
 
         $locationQuery = new LocationQuery();
@@ -276,20 +276,19 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
     }
 
     /**
-     * @return string[]
+     * @return iterable<string>
      */
-    private function getValidFieldIdentifiers(Query $query, Content $content): array
+    private function getValidFieldIdentifiers(Query $query, Content $content): iterable
     {
         $parameter = $query->getParameter('field_definition_identifier');
 
-        if ($parameter->isEmpty()) {
-            return array_map(
-                static fn (Field $field): string => $field->fieldDefIdentifier,
-                $content->fields,
-            );
+        if (!$parameter->isEmpty()) {
+            return array_map('mb_trim', explode(',', $parameter->getValue()));
         }
 
-        return array_map('trim', explode(',', $parameter->getValue()));
+        foreach ($content->getFields() as $field) {
+            yield $field->fieldDefIdentifier;
+        }
     }
 
     /**
@@ -303,7 +302,8 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
             return [];
         }
 
-        $fieldIdentifiers = $this->getValidFieldIdentifiers($query, $content);
+        /** @var string[] $fieldIdentifiers */
+        $fieldIdentifiers = [...$this->getValidFieldIdentifiers($query, $content)];
 
         $tags = [];
 
