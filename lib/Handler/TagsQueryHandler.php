@@ -57,9 +57,9 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         private SearchService $searchService,
         private RequestStack $requestStack,
     ) {
-        $this->setLocationService($locationService);
-        $this->setObjectStateHandler($objectStateHandler);
-        $this->setContentProvider($contentProvider);
+        $this->locationService = $locationService;
+        $this->objectStateHandler = $objectStateHandler;
+        $this->contentProvider = $contentProvider;
     }
 
     public function buildParameters(ParameterBuilderInterface $builder): void
