@@ -184,8 +184,8 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
 
     public function isContextual(Query $query): bool
     {
-        return $query->getParameter('use_current_location')->getValue() === true
-            || $query->getParameter('use_tags_from_current_content')->getValue() === true;
+        return $query->getParameter('use_current_location')->value === true
+            || $query->getParameter('use_tags_from_current_content')->value === true;
     }
 
     /**
@@ -217,20 +217,20 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
     {
         $tags = [];
 
-        if (!$query->getParameter('filter_by_tags')->isEmpty()) {
-            $tags[] = array_values($query->getParameter('filter_by_tags')->getValue());
+        if (!$query->getParameter('filter_by_tags')->isEmpty) {
+            $tags[] = array_values($query->getParameter('filter_by_tags')->value);
         }
 
-        if ($query->getParameter('use_tags_from_current_content')->getValue() === true) {
+        if ($query->getParameter('use_tags_from_current_content')->value === true) {
             $tags[] = $this->getTagsFromContent($query);
         }
 
         $request = $this->requestStack->getCurrentRequest();
-        if ($request instanceof Request && $query->getParameter('use_tags_from_query_string')->getValue() === true) {
+        if ($request instanceof Request && $query->getParameter('use_tags_from_query_string')->value === true) {
             $queryStringParam = $query->getParameter('query_string_param_name');
 
-            if (!$queryStringParam->isEmpty() && $request->query->has($queryStringParam->getValue())) {
-                $tags[] = $request->query->all($queryStringParam->getValue());
+            if (!$queryStringParam->isEmpty && $request->query->has($queryStringParam->value)) {
+                $tags[] = $request->query->all($queryStringParam->value);
             }
         }
 
@@ -250,7 +250,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
             new Criterion\Subtree($parentLocation->pathString),
             new Criterion\Visibility(Criterion\Visibility::VISIBLE),
             $this->getQueryTypeFilterCriteria($query, $parentLocation),
-            $query->getParameter('tags_filter_logic')->getValue() === 'any' ?
+            $query->getParameter('tags_filter_logic')->value === 'any' ?
                 new Criterion\LogicalOr($tagsCriteria) :
                 new Criterion\LogicalAnd($tagsCriteria),
             $this->getMainLocationFilterCriteria($query),
@@ -282,8 +282,8 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
     {
         $parameter = $query->getParameter('field_definition_identifier');
 
-        if (!$parameter->isEmpty()) {
-            return array_map('mb_trim', explode(',', $parameter->getValue()));
+        if (!$parameter->isEmpty) {
+            return array_map('mb_trim', explode(',', $parameter->value));
         }
 
         foreach ($content->getFields() as $field) {
