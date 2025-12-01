@@ -5,8 +5,6 @@ block via Tags field type available in any content in Ibexa CMS CMS.
 
 ## Installation instructions
 
-### Use Composer
-
 Run the following from your installation root to install the package:
 
 ```bash
