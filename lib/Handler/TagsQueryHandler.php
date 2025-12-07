@@ -155,7 +155,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         $searchResult = $this->searchService->findLocations($locationQuery);
 
         return array_map(
-            static fn (SearchHit $searchHit): ValueObject => $searchHit->valueObject,
+            static fn (SearchHit $searchHit): Location => $searchHit->valueObject,
             $searchResult->searchHits,
         );
     }
