@@ -233,7 +233,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
             }
         }
 
-        return array_map('intval', array_unique(array_merge(...$tags)));
+        return array_map(intval(...), array_unique(array_merge(...$tags)));
     }
 
     /**
@@ -282,7 +282,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         $parameter = $query->getParameter('field_definition_identifier');
 
         if (!$parameter->isEmpty) {
-            return array_map('mb_trim', explode(',', $parameter->value));
+            return array_map(mb_trim(...), explode(',', $parameter->value));
         }
 
         foreach ($content->getFields() as $field) {
