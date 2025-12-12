@@ -17,9 +17,6 @@ use function file_get_contents;
 
 final class NetgenLayoutsIbexaTagsQueryExtension extends Extension implements PrependExtensionInterface
 {
-    /**
-     * @param mixed[] $configs
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         /** @var array<string, string> $activatedBundles */
