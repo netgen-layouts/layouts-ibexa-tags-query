@@ -233,7 +233,7 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
             }
         }
 
-        return array_map(intval(...), array_unique(array_merge(...$tags)));
+        return array_map(intval(...), array_values(array_unique(array_merge(...$tags))));
     }
 
     /**
