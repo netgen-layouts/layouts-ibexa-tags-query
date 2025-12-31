@@ -34,6 +34,7 @@ use function array_values;
 use function count;
 use function explode;
 use function is_int;
+use function is_string;
 use function max;
 
 /**
@@ -228,8 +229,10 @@ final class TagsQueryHandler implements QueryTypeHandlerInterface
         if ($request instanceof Request && $query->getParameter('use_tags_from_query_string')->value === true) {
             $queryStringParam = $query->getParameter('query_string_param_name');
 
-            if (!$queryStringParam->isEmpty && $request->query->has($queryStringParam->value)) {
-                $tags[] = $request->query->all($queryStringParam->value);
+            if (!$queryStringParam->isEmpty && is_string($queryStringParam->value)) {
+                if ($request->query->has($queryStringParam->value)) {
+                    $tags[] = $request->query->all($queryStringParam->value);
+                }
             }
         }
 
